@@ -223,8 +223,10 @@ export default function Page() {
             </p>
             <div className="mt-8">
               <a
-                href="mailto:john@johnkeanestudios.com"
+                href="mailto:john@johnkeanestudios.com?subject=Booking"
                 className="btn-primary text-lg"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 john@johnkeanestudios.com
               </a>
