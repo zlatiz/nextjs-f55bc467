@@ -1,46 +1,95 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import MobileNav from './MobileNav';
+'use client';
 
-const NAV: Array<{ href: string; label: string }> = [
-  { href: '/', label: 'Home' },
-  { href: '/html/about', label: 'About' },
-  { href: '/html/discography', label: 'Discography' },
-  { href: '/html/recordingservices', label: 'Recording Services' },
-  { href: '/html/clientlist', label: 'Client List' },
-  { href: '/html/equipment', label: 'Equipment' },
-  { href: '/html/clips', label: 'Music Clips' },
-  { href: '/html/photos', label: 'Photos' },
-  { href: '/html/contact', label: 'Contact' }
+import Link from 'next/link';
+import { useState } from 'react';
+
+const NAV = [
+  { href: '#services', label: 'Services' },
+  { href: '#work', label: 'Work' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' }
 ];
 
-export default function Header(): JSX.Element {
-  const brand = 'KeaneStudios';
-  const logoSrc = encodeURI('https://johnkeanestudios.com/Images/j.keane2.jpg');
-  return (
-    <header className="sticky top-0 z-40 backdrop-blur-xl bg-[rgba(11,11,15,0.6)] border-b border-[var(--border)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-md overflow-hidden bg-[var(--primary)] flex items-center justify-center">
-                <Image src={logoSrc} alt="John Keane portrait" width={40} height={40} unoptimized className="object-cover" />
-              </div>
-              <span className="font-heading text-lg">{brand}</span>
-            </Link>
-          </div>
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
 
-          <nav className="hidden md:flex items-center gap-4" aria-label="Main navigation">
-            {(Array.isArray(NAV) ? NAV : []).map((item) => (
-              <Link key={item.href} href={item.href} className="text-sm px-3 py-2 rounded-md hover:bg-[rgba(255,255,255,0.02)]">{item.label}</Link>
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-lg">
+      <div className="container-width section-padding">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent">
+              <span className="text-sm font-bold text-white">JK</span>
+            </div>
+            <span className="text-lg font-semibold">John Keane Studios</span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-1 md:flex">
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              >
+                {item.label}
+              </Link>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Link href="/html/contact" className="hidden sm:inline-block gradient-btn">Contact Us</Link>
-            <MobileNav links={NAV} />
+          {/* CTA Button */}
+          <div className="hidden md:block">
+            <Link href="#contact" className="btn-primary">
+              Book a Session
+            </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-muted md:hidden"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        {isOpen && (
+          <nav className="border-t border-border py-4 md:hidden">
+            <div className="flex flex-col gap-1">
+              {NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="rounded-lg px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                href="#contact"
+                onClick={() => setIsOpen(false)}
+                className="btn-primary mt-2"
+              >
+                Book a Session
+              </Link>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   );

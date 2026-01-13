@@ -4,45 +4,80 @@
 
 @layer base {
   :root {
-    --background: #0B0B0F;
-    --foreground: #FFFFFF;
-    --primary: #1B1B2F;
-    --primary-foreground: #ffffff;
-    --secondary: #FF3D7F;
-    --muted: #121217;
-    --muted-foreground: #BDB8C0;
-    --accent: #00E5FF;
-    --border: #2A2A36;
-    --radius: 12px;
+    --background: 9 9 11;
+    --foreground: 250 250 250;
+    --primary: 24 24 27;
+    --primary-foreground: 250 250 250;
+    --secondary: 244 244 245;
+    --secondary-foreground: 24 24 27;
+    --muted: 39 39 42;
+    --muted-foreground: 161 161 170;
+    --accent: 59 130 246;
+    --accent-foreground: 250 250 250;
+    --border: 39 39 42;
+    --ring: 59 130 246;
+    --radius: 8px;
   }
 
-  html, body, #__next {
-    height: 100%;
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: Manrope, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  * {
+    border-color: rgb(var(--border));
   }
 
-  a { color: inherit; text-decoration: none }
-
-  .glass-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.04);
-    backdrop-filter: blur(12px);
-    border-radius: var(--radius);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.55);
+  html {
+    scroll-behavior: smooth;
   }
 
-  .gradient-btn {
-    background: linear-gradient(135deg, #1B1B2F 0%, #FF3D7F 50%, #00E5FF 100%);
-    color: white;
-    border-radius: 12px;
-    padding: 0.6rem 1rem;
-    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms cubic-bezier(0.22,1,0.36,1);
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-all hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
   }
 
-  .gradient-btn:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg border border-border bg-transparent px-6 py-3 text-sm font-medium text-foreground transition-all hover:bg-muted focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  .card {
+    @apply rounded-xl border border-border bg-primary/50 p-6 backdrop-blur-sm transition-all;
+  }
+
+  .card-hover {
+    @apply hover:border-accent/50 hover:bg-primary/80;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-width {
+    @apply mx-auto max-w-6xl;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
